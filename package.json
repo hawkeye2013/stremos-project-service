@@ -1,0 +1,19 @@
+{
+  "name": "project-service",
+  "version": "0.0.1",
+  "description": "Project Service For Alchemist",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "start:dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tucker Hawkinson <tucker@hawkinson.dev>",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
