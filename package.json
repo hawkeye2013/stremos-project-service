@@ -1,7 +1,7 @@
 {
   "name": "project-service",
   "version": "0.0.1",
-  "description": "Project Service For Alchemist",
+  "description": "Project Service For stremos",
   "main": "server.js",
   "scripts": {
     "start": "node .",
