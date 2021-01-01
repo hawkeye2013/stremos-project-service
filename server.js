@@ -1,7 +1,9 @@
 // EXPRESS IMPORTS
 const express = require('express');
 const app = express();
-require('./config/keycloak-config.js').initKeycloak();
+
+// SERVER CONFIG
+const PORT = process.env.PORT || 4000;
 
 // MIDDLEWARE
 const bodyParser = require('body-parser');
