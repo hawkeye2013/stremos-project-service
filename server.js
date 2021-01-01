@@ -1,3 +1,10 @@
+// SERVER IMPORTS
+const startupHelpers = require('./helpers/startup');
+const startServer = require('./helpers/startServer');
+
+// Register Environment Variables
+startupHelpers.registerEnvVars();
+
 // EXPRESS IMPORT
 const express = require('express');
 const app = express();
@@ -7,18 +14,14 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 
+// SERVER CONFIG
+const PORT = process.env.PORT || 4000;
+const keycloak = require('./config/keycloak-config').initKeycloak();
+
 // ROUTES IMPORT
 const projectRoutes = require('./routes/routes.js');
 
-// SERVER HELPER IMPORT
-const startupHelpers = require('./helpers/startup');
-const startServer = require('./helpers/startServer');
-
-// SERVER CONFIG
-const PORT = process.env.PORT || 4000;
-
 // Execute Startup Processes
-startupHelpers.registerEnvVars();
 startupHelpers.startLogger(app);
 startupHelpers.setProcessEventHandlers();
 
@@ -27,6 +30,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use(keycloak.middleware());
 
 startServer(() => {
   app.use('/project/status', (_, res) => {

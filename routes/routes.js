@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-// let keycloak = require('../config/keycloak-config').getKeycloak();
+let keycloak = require('../config/keycloak-config').getKeycloak();
 
-// router.use(keycloak.middleware());
-
-router.get('/:id' /*, keycloak.protect()*/, (req, res) => {
+router.get('/:id', keycloak.protect('user'), (req, res) => {
   res.send(`Getting Project ${req.params.id}`);
 });
 
