@@ -1,21 +1,20 @@
-// EXPRESS IMPORTS
+// EXPRESS IMPORT
 const express = require('express');
 const app = express();
 
-// SERVER CONFIG
-const PORT = process.env.PORT || 4000;
-
-// MIDDLEWARE
+// MIDDLEWARE IMPORT
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 
-// ROUTES
+// ROUTES IMPORT
 const projectRoutes = require('./routes/routes.js');
 
-// Server
+// SERVER HELPER IMPORT
 const startupHelpers = require('./helpers/startup');
 const startServer = require('./helpers/startServer');
+
+// SERVER CONFIG
 const PORT = process.env.PORT || 4000;
 
 // Execute Startup Processes
