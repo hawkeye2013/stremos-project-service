@@ -5,7 +5,7 @@ let _keycloak;
 var keycloakConfig = {
   clientId: process.env.KEYCLOAK_CLIENT,
   bearerOnly: true,
-  serverUrl: `http://${process.env.KEYCLOAK_HOST}:${process.env.KEYCLOAK_PORT}/auth`,
+  serverUrl: `http://${process.env.KEYCLOAK_HOST}/auth`,
   realm: process.env.KEYCLOAK_REALM,
   realmPublicKey: process.env.KEYCLOAK_PUBLIC_KEY,
 };
