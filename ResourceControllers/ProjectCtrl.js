@@ -2,8 +2,8 @@ const ProjectDataController = require('../DataControllers/ProjectDataCtrl');
 const { Error404 } = require('../error/Errors');
 
 module.exports = class ProjectController {
-  constructor() {
-    this.dataCtrl = new ProjectDataController();
+  constructor(dataController) {
+    this.dataCtrl = dataController;
   }
 
   findByID(id) {
