@@ -1,5 +1,5 @@
-const ProjectDataController = require('../DataControllers/ProjectDataCtrl');
-const { Error404 } = require('../error/Errors');
+const { Error404 } = require('../errors/Errors');
+const { logInfo } = require('../logging/logging');
 
 module.exports = class ProjectController {
   constructor(dataController) {
@@ -25,7 +25,7 @@ module.exports = class ProjectController {
       this.dataCtrl
         .findByUserID(uid)
         .then((data) => {
-          console.log(data);
+          logInfo('ProjectCtrl', data);
           resolve(data);
         })
         .catch((err) => reject(err));

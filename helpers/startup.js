@@ -1,18 +1,19 @@
 const morgan = require('morgan');
 
-let startupHelpers = {};
+const startupHelpers = {};
 
-startupHelpers.registerEnvVars = function () {
+startupHelpers.registerEnvVars = () => {
   if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line global-require
     require('dotenv').config();
   }
 };
 
-startupHelpers.startLogger = function (app) {
+startupHelpers.startLogger = (app) => {
   if (process.env.NODE_ENV !== 'production') {
     app.use(
-      morgan(function (tokens, req, res) {
-        return [
+      morgan((tokens, req, res) => {
+        const options = [
           tokens.method(req, res),
           tokens.url(req, res),
           tokens.status(req, res),
@@ -22,15 +23,17 @@ startupHelpers.startLogger = function (app) {
           'ms',
           '-',
           process.pid,
-        ].join(' ');
-      })
+        ];
+
+        return options.join(' ');
+      }),
     );
   } else {
     app.use(morgan('combined'));
   }
 };
 
-startupHelpers.setProcessEventHandlers = function () {
+startupHelpers.setProcessEventHandlers = () => {
   process.on('SIGTERM', () => {
     process.exit();
   });

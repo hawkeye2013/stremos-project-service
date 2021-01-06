@@ -21,6 +21,7 @@ const keycloak = require('./config/keycloak-config').initKeycloak();
 
 // ROUTES IMPORT
 const projectRoutes = require('./routes/routes.js');
+const { logInfo } = require('./logging/logging');
 
 // Execute Startup Processes
 startupHelpers.startLogger(app);
@@ -41,7 +42,6 @@ startServer(() => {
   app.use('/project', projectRoutes);
 
   app.listen(PORT, () => {
-    /* eslint-disable */
-    console.log(`Worker ${process.pid} \tListening on port ${PORT}`);
+    logInfo('Server', `Worker ${process.pid} \tListening on port ${PORT}`);
   });
 });

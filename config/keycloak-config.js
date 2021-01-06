@@ -1,4 +1,5 @@
 const Keycloak = require('keycloak-connect');
+const { logWarn, logInfo, logError } = require('../logging/logging');
 
 let keycloakInstance;
 
@@ -12,21 +13,20 @@ const keycloakConfig = {
 
 function initKeycloak() {
   if (keycloakInstance) {
-    /* eslint-disable */
-    console.warn('Trying to init Keycloak again!');
-    return keycloakInstance;
-  } else {
-    console.log(`Initializing Keycloak for pid ${process.pid}`);
-    keycloakInstance = new Keycloak({}, keycloakConfig);
+    logWarn('KeycloakConfig', 'Trying to init Keycloak again!');
     return keycloakInstance;
   }
+
+  logInfo('KeycloakConfig', `Initializing Keycloak for pid ${process.pid}`);
+  keycloakInstance = new Keycloak({}, keycloakConfig);
+  return keycloakInstance;
 }
 
 function getKeycloak() {
   if (!keycloakInstance) {
-    /* eslint-disable */
-    console.error(
-      'Keycloak has not been initialized. Please called init first.'
+    logError(
+      'KeycloakConfig',
+      'Keycloak has not been initialized. Please called init first.',
     );
   }
   return keycloakInstance;
