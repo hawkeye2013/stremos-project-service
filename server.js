@@ -1,18 +1,19 @@
-// SERVER IMPORTS
-const startupHelpers = require('./helpers/startup');
-const startServer = require('./helpers/startServer');
-
-// Register Environment Variables
-startupHelpers.registerEnvVars();
-
 // EXPRESS IMPORT
 const express = require('express');
-const app = express();
 
 // MIDDLEWARE IMPORT
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+
+// SERVER IMPORTS
+const startupHelpers = require('./helpers/startup');
+const startServer = require('./helpers/startServer');
+
+const app = express();
+
+// Register Environment Variables
+startupHelpers.registerEnvVars();
 
 // SERVER CONFIG
 const PORT = process.env.PORT || 4000;
@@ -40,6 +41,7 @@ startServer(() => {
   app.use('/project', projectRoutes);
 
   app.listen(PORT, () => {
+    /* eslint-disable */
     console.log(`Worker ${process.pid} \tListening on port ${PORT}`);
   });
 });

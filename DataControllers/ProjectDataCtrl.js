@@ -8,8 +8,7 @@ module.exports = class ProjectDataController {
         {
           poolSize: 10,
           useUnifiedTopology: true,
-          useUnifiedTopology: true,
-        }
+        },
       ).connect((err, client) => {
         if (err) throw err;
 

@@ -1,8 +1,8 @@
-var Keycloak = require('keycloak-connect');
+const Keycloak = require('keycloak-connect');
 
-let _keycloak;
+let keycloakInstance;
 
-var keycloakConfig = {
+const keycloakConfig = {
   clientId: process.env.KEYCLOAK_CLIENT,
   bearerOnly: true,
   serverUrl: `http://${process.env.KEYCLOAK_HOST}/auth`,
@@ -11,23 +11,25 @@ var keycloakConfig = {
 };
 
 function initKeycloak() {
-  if (_keycloak) {
+  if (keycloakInstance) {
+    /* eslint-disable */
     console.warn('Trying to init Keycloak again!');
-    return _keycloak;
+    return keycloakInstance;
   } else {
     console.log(`Initializing Keycloak for pid ${process.pid}`);
-    _keycloak = new Keycloak({}, keycloakConfig);
-    return _keycloak;
+    keycloakInstance = new Keycloak({}, keycloakConfig);
+    return keycloakInstance;
   }
 }
 
 function getKeycloak() {
-  if (!_keycloak) {
+  if (!keycloakInstance) {
+    /* eslint-disable */
     console.error(
       'Keycloak has not been initialized. Please called init first.'
     );
   }
-  return _keycloak;
+  return keycloakInstance;
 }
 
 module.exports = {
