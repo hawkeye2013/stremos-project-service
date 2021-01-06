@@ -1,8 +1,6 @@
-const ProjectDataController = require('../DataControllers/ProjectDataCtrl');
-
 module.exports = class ProjectController {
-  constructor() {
-    this.dataCtrl = new ProjectDataController();
+  constructor(dataController) {
+    this.dataCtrl = dataController;
   }
 
   findByID(id) {
