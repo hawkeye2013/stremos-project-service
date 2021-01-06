@@ -1,4 +1,6 @@
+const { response } = require('express');
 const { MongoClient, ObjectID } = require('mongodb');
+const { Error500 } = require('../error/Errors');
 
 module.exports = class ProjectDataController {
   constructor() {
@@ -18,30 +20,36 @@ module.exports = class ProjectDataController {
           .collection(process.env.MONGO_COLLECTION);
       });
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
-
-    console.log('Created Project Data Controller');
   }
 
   getByID(id) {
-    this.collection
-      .findOne({
-        _id: ObjectID(id),
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
+    return new Promise((resolve, reject) => {
+      this.collection
+        .findOne({
+          _id: ObjectID(id),
+        })
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => reject(new Error500(err)));
+    });
   }
 
-  async findByUserID(userID) {
-    console.log(userID);
-
-    const cursor = this.collection.find({
-      owner: userID,
+  findByUserID(userID) {
+    return new Promise((resolve, reject) => {
+      this.collection
+        .find({
+          owner: userID,
+        })
+        .toArray((err, data) => {
+          if (err) {
+            reject(new Error500(err));
+          } else {
+            resolve(data);
+          }
+        });
     });
-
-    await cursor.forEach(console.dir);
   }
 };
