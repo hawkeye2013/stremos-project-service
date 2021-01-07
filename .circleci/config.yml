@@ -34,7 +34,7 @@ jobs:
           name: Linting Front End
           command: npm run lint
 
-      # Backend Tests
+      # Unit Tests
       - run:
-          name: Backend Tests
-          command: npm run test:backend
+          name: Unit Tests
+          command: npm run test
