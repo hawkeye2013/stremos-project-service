@@ -1,6 +1,6 @@
-const { response } = require('express');
 const { MongoClient, ObjectID } = require('mongodb');
-const { Error500 } = require('../error/Errors');
+const { Error500 } = require('../errors/Errors');
+const { logError } = require('../logging/logging');
 
 module.exports = class ProjectDataController {
   constructor() {
@@ -10,8 +10,7 @@ module.exports = class ProjectDataController {
         {
           poolSize: 10,
           useUnifiedTopology: true,
-          useUnifiedTopology: true,
-        }
+        },
       ).connect((err, client) => {
         if (err) throw err;
 
@@ -20,7 +19,7 @@ module.exports = class ProjectDataController {
           .collection(process.env.MONGO_COLLECTION);
       });
     } catch (err) {
-      console.log(err);
+      logError('ProjectDataCtrl', err);
     }
   }
 

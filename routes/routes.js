@@ -1,16 +1,18 @@
 const express = require('express');
 const ProjectDataController = require('../DataControllers/ProjectDataCtrl');
 const ProjectController = require('../ResourceControllers/ProjectCtrl');
+const { logError } = require('../logging/logging');
+
 const router = express.Router();
 
-let keycloak = require('../config/keycloak-config').getKeycloak();
+const keycloak = require('../config/keycloak-config').getKeycloak();
 
 // We Instantiate the Data controller here and pass it to the project controller
 // so we can start the db pool.  This way it doesn't try an pool for each connection
 // only on the initial startup
-let projectDataCtrl = new ProjectDataController();
+const projectDataCtrl = new ProjectDataController();
 
-let projectCtrl = new ProjectController(projectDataCtrl);
+const projectCtrl = new ProjectController(projectDataCtrl);
 
 router.get('/:id', keycloak.protect('user'), (req, res) => {
   projectCtrl
@@ -28,7 +30,7 @@ router.get('/findByUser/:uid', keycloak.protect('user'), (req, res) => {
       res.json(data);
     })
     .catch((customErr) => {
-      console.log(customErr);
+      logError('Routes', customErr);
 
       customErr.send(res);
     });

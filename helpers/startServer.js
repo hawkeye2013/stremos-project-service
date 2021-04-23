@@ -1,20 +1,7 @@
 // IMPORTS
 const os = require('os');
 const cluster = require('cluster');
-
-/**
- * This function abstracts the clustering process from the server.js
- * file. This allows the server.js file to purely focus on configuration.
- *
- * @param {function} callback - Function to execute to start a worker
- */
-module.exports = function (callback) {
-  if (cluster.isMaster && getNumWorkers() > 1) {
-    forkWorkers();
-  } else {
-    callback();
-  }
-};
+const { logInfo } = require('../logging/logging');
 
 /**
  * Finds the value of workers we can use.  It doesn't make
@@ -26,13 +13,12 @@ module.exports = function (callback) {
  * will be used.
  */
 function getNumWorkers() {
-  let cpuCores = os.cpus().length;
+  const cpuCores = os.cpus().length;
 
   if (process.env.MAX_WORKERS) {
     return Math.min(cpuCores, process.env.MAX_WORKERS);
-  } else {
-    return cpuCores;
   }
+  return cpuCores;
 }
 
 /**
@@ -43,8 +29,22 @@ function forkWorkers() {
     cluster.fork();
   }
 
-  cluster.on('exit', function (worker) {
+  cluster.on('exit', (worker) => {
     cluster.fork();
-    console.log(`Worker ${worker.id} has exited`);
+    logInfo('StartServer', `Worker ${worker.id} has exited`);
   });
 }
+
+/**
+ * This function abstracts the clustering process from the server.js
+ * file. This allows the server.js file to purely focus on configuration.
+ *
+ * @param {function} callback - Function to execute to start a worker
+ */
+module.exports = (callback) => {
+  if (cluster.isMaster && getNumWorkers() > 1) {
+    forkWorkers();
+  } else {
+    callback();
+  }
+};
